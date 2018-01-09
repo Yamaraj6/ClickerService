@@ -1,35 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using ClickerRepository;
+using ClickerRepository.Interfaces;
+using ClickerService.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClickerService.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class PlayerController : Controller
     {
-        // GET api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private IPlayerRepository playerRepository;
+
+        public PlayerController(IPlayerRepository playerRepository)
         {
-            return new string[] { "value1", "value2" };
+            this.playerRepository = playerRepository;
         }
 
-        // GET api/values/5
+        // GET api/player/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Player Get(string id)
         {
-            return "value";
+            return playerRepository.GetPlayerByFacebookId(id);
         }
 
-        // POST api/values
+        // POST api/player
         [HttpPost]
         public void Post([FromBody]string value)
         {
         }
 
-        // PUT api/values/5
+        // PUT api/player/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {

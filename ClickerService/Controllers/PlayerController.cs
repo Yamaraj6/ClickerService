@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
-using ClickerRepository;
-using ClickerRepository.Interfaces;
+﻿using ClickerRepository.Interfaces;
 using ClickerService.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace ClickerService.Controllers
 {
@@ -24,25 +19,47 @@ namespace ClickerService.Controllers
         [HttpGet("{id}")]
         public Player Get(string id)
         {
-            return playerRepository.GetPlayerByFacebookId(id);
+            return playerRepository.GetPlayer(id);
         }
 
-        // POST api/player
+      /*  // POST api/player/5
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post()
         {
-        }
-
+            for (int i = 0; i < 100000; i++)
+            {
+                Player testPlayer = new Player
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    IdFacebook = Guid.NewGuid().ToString(),
+                    FirstLogin = DateTime.Now,
+                    LastLogout = DateTime.Now,
+                    Name = "Andrzej",
+                    Country = "Polska",
+                    ImageUrl = "sadasda",
+                    Money = 0,
+                    Diamonds = 0,
+                    MaxClickMultiplier = i,
+                    MaxCps = i,
+                    TotalClicks = i,
+                    TotalEarnings = i
+                };
+                playerRepository.UpdatePlayer(testPlayer);
+            }
+        }*/
+        
         // PUT api/player/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut]
+        public void Put([FromBody]Player player)
         {
+            playerRepository.UpdatePlayer(player);
         }
 
-        // DELETE api/values/5
+        // DELETE api/player/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(string id)
         {
+            playerRepository.RemovePlayer(id);
         }
     }
 }

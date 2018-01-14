@@ -6,7 +6,6 @@ namespace ClickerRepository.Interfaces
     {
         Player GetPlayer(string id);
         Player GetPlayerByFacebookId(string idFacebook);
-        void CreatPlayer(Player player);
         void UpdatePlayer(Player player);
         void RemovePlayer(string id);
     }

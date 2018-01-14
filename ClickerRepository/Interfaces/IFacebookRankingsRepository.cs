@@ -5,6 +5,6 @@ namespace ClickerRepository
 {
     public interface IFacebookRankingsRepository
     {
-        IEnumerable<Player> GetFacebookFriendRank(IEnumerable<string> friendsFbId);
+        IEnumerable<Player> GetFacebookFriendRanking(List<string> friendsFbId);
     }
 }

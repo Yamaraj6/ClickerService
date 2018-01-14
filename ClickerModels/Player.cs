@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace ClickerService.Models
 {
@@ -11,11 +10,10 @@ namespace ClickerService.Models
         public string ImageUrl { get; set; }
         public string Country { get; set; }
         public DateTime? FirstLogin { get; set; }
-        public DateTime? LastLogOut { get; set; }
+        public DateTime? LastLogout { get; set; }
         public double Money { get; set; }
         public int Diamonds { get; set; }
-
-        public int? Rank { get; set; } 
+        
         public double? TotalEarnings { get; set; }
         public double? TotalClicks { get; set; }
         public double? MaxCps { get; set; }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ClickerService.Models
+﻿namespace ClickerService.Models
 {
     public partial class ShopItem
     {

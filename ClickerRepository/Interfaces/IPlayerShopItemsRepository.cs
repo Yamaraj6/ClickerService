@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ClickerModels
+namespace ClickerRepository.Interfaces
 {
     public interface IPlayerShopItemsRepository
     {

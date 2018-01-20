@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClickerService", "ClickerService\ClickerService.csproj", "{D14D284F-B461-472A-A757-13426ACD1D44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickerRepository", "ClickerRepository\ClickerRepository.csproj", "{BD301130-A09B-45FD-A883-58DFDFC78375}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClickerRepository", "ClickerRepository\ClickerRepository.csproj", "{BD301130-A09B-45FD-A883-58DFDFC78375}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickerModels", "ClickerModels\ClickerModels.csproj", "{B21CFB85-5A1B-4F4F-AB97-3CDEEA895DA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClickerModels", "ClickerModels\ClickerModels.csproj", "{B21CFB85-5A1B-4F4F-AB97-3CDEEA895DA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

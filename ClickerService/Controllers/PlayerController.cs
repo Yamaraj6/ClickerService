@@ -21,32 +21,6 @@ namespace ClickerService.Controllers
         {
             return playerRepository.GetPlayer(id);
         }
-
-      /*  // POST api/player/5
-        [HttpPost]
-        public void Post()
-        {
-            for (int i = 0; i < 100000; i++)
-            {
-                Player testPlayer = new Player
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    IdFacebook = Guid.NewGuid().ToString(),
-                    FirstLogin = DateTime.Now,
-                    LastLogout = DateTime.Now,
-                    Name = "Andrzej",
-                    Country = "Polska",
-                    ImageUrl = "sadasda",
-                    Money = 0,
-                    Diamonds = 0,
-                    MaxClickMultiplier = i,
-                    MaxCps = i,
-                    TotalClicks = i,
-                    TotalEarnings = i
-                };
-                playerRepository.UpdatePlayer(testPlayer);
-            }
-        }*/
         
         // PUT api/player/5
         [HttpPut]

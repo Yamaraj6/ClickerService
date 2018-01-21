@@ -30,39 +30,13 @@ namespace ClickerService.Controllers
             return playerRepository.GetPlayer(id);
         }
 
-        /*  // POST api/player/5
-          [HttpPost]
-          public void Post()
-          {
-              for (int i = 0; i < 100000; i++)
-              {
-                  Player testPlayer = new Player
-                  {
-                      Id = Guid.NewGuid().ToString(),
-                      IdFacebook = Guid.NewGuid().ToString(),
-                      FirstLogin = DateTime.Now,
-                      LastLogout = DateTime.Now,
-                      Name = "Andrzej",
-                      Country = "Polska",
-                      ImageUrl = "sadasda",
-                      Money = 0,
-                      Diamonds = 0,
-                      MaxClickMultiplier = i,
-                      MaxCps = i,
-                      TotalClicks = i,
-                      TotalEarnings = i
-                  };
-                  playerRepository.UpdatePlayer(testPlayer);
-              }
-          }*/
-
         /// </summary>
         /// Updates player in database or if the player doesn't exist adds him in the database.
         /// <param name="player"> Player data for update. </param>
-        /// <example> PUT api/player </example>
+        /// <example> POST api/player </example>
         /// </summary>
-        [HttpPut]
-        public void Put([FromBody]Player player)
+        [HttpPost]
+        public void Post([FromBody]Player player)
         {
             playerRepository.UpdatePlayer(player);
         }
@@ -70,10 +44,10 @@ namespace ClickerService.Controllers
         /// </summary>
         /// Removes the player from the database.
         /// <param name="id"> Player's id whose data to be removed. </param>
-        /// <example> DELETE api/player/5 </example>
+        /// <example> POST api/player/5 </example>
         /// </summary>
-        [HttpDelete("{id}")]
-        public void Delete(string id)
+        [HttpPost("{id}")]
+        public void Post(string id)
         {
             playerRepository.RemovePlayer(id);
         }

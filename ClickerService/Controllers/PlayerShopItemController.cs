@@ -33,10 +33,10 @@ namespace ClickerService.Controllers
         /// Updates player items in database.
         /// <param name="idPlayer"> Player's id to which the items belongs. </param>
         /// <param name="shopItemsWithLvls"> Items with leves. </param>
-        /// <example> PUT api/playershopitem/5 </example>
+        /// <example> POST api/playershopitem/5 </example>
         /// </summary>
-        [HttpPut("{idPlayer}")]
-        public void Put(string idPlayer, [FromBody]Dictionary<int, int> shopItemsWithLvls)
+        [HttpPost("{idPlayer}")]
+        public void Post(string idPlayer, [FromBody]Dictionary<int, int> shopItemsWithLvls)
         {
             playerShopItemsRepository.UpdatePlayerShopItems(idPlayer, shopItemsWithLvls);
         }

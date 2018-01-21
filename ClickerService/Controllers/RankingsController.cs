@@ -24,10 +24,10 @@ namespace ClickerService.Controllers
         /// <param name="ranking"> Ranking type data </param>
         /// <returns> Ranking in Dictionary type which the key is player place in ranking 
         /// and value is the player data. </returns>
-        /// <example> PUT api/rankings/5 </example>
+        /// <example> POST api/rankings/5 </example>
         /// </summary>
-        [HttpPut("{idPlayer}")]
-        public Dictionary<int, RankingPlayer> Put(string idPlayer, [FromBody]Ranking ranking)
+        [HttpPost("{idPlayer}")]
+        public Dictionary<int, RankingPlayer> Post(string idPlayer, [FromBody]Ranking ranking)
         {
             return rankingsRepository.GetRanking(idPlayer, ranking);
         }

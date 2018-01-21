@@ -25,10 +25,10 @@ namespace ClickerService.Controllers
         /// Selects players by list of Facebook Ids in the database.
         /// <param name="friendsFbId"> List of Facebook Id Players whose to be extracted from the database. </param>
         /// <returns> Players list from database.</returns>
-        /// <example> PUT api/facebookrankings </example>
+        /// <example> POST api/facebookrankings </example>
         /// </summary>
-        [HttpPut]
-        public IEnumerable<Player> Put([FromBody]List<string> friendsFbId)
+        [HttpPost]
+        public IEnumerable<Player> Post([FromBody]List<string> friendsFbId)
         {
             return facebookRankingsRepository.GetFacebookFriendRanking(friendsFbId);
         }

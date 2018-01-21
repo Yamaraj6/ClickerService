@@ -19,6 +19,19 @@ namespace ClickerServiceTests
         [Test]
         public void ConvertToDouble_OnExecute_CheckIfValueIsCorrect()
         {
+            AddPlayers();
+            DeletePlayers();
+
+     //           WebRequest webRequest = WebRequest.Create("http://testserviceclicker.hostingasp.pl/api/player/1223456");
+     //    WebResponse webResponse = webRequest.GetResponse();
+     //   Stream dataStream = webResponse.GetResponseStream();
+     //    StreamReader reader = new StreamReader(dataStream);
+     //      string responseFromServer = reader.ReadToEnd();
+
+        }
+
+        private void AddPlayers()
+        {
             Random rand = new Random();
             List<Player> players = new List<Player>();
             for (int i = 0; i < 1000; i++)
@@ -37,32 +50,42 @@ namespace ClickerServiceTests
                     MaxClickMultiplier = rand.NextDouble() * 10000,
                     MaxCps = rand.NextDouble() * 10000,
                     TotalClicks = rand.NextDouble() * 10000,
-                    TotalEarnings = rand.NextDouble() * 10000              
+                    TotalEarnings = rand.NextDouble() * 10000
                 });
             }
-            WebRequest putPlayers = WebRequest.Create("http://testserviceclicker.hostingasp.pl/api/player");
-            putPlayers.ContentType = "application/json";
-            putPlayers.Method = "PUT";
-            
-            using (var streamWriter = new StreamWriter(putPlayers.GetRequestStream()))
+            for (int i = 0; i < 1000; i++)
             {
-                streamWriter.Write(System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(players[0])));
-                streamWriter.Flush();
-                streamWriter.Close();
+                WebRequest requestAddPlayers = WebRequest.Create("http://testserviceclicker.hostingasp.pl/api/player");
+                requestAddPlayers.ContentType = "application/json";
+                requestAddPlayers.Method = "POST";
+                using (var streamWriter = requestAddPlayers.GetRequestStream())
+                {
+                    byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(players[i]));
+                    streamWriter.Write(byteArray, 0, byteArray.Length);
+                    streamWriter.Close();
+                }
+                var response = (HttpWebResponse)requestAddPlayers.GetResponse();
+                using (var streamReader = new StreamReader(response.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                }
             }
+        }
 
-            var response = (HttpWebResponse)putPlayers.GetResponse();
-            using (var streamReader = new StreamReader(response.GetResponseStream()))
+        private void DeletePlayers()
+        {
+            for (int i = 0; i < 1000; i++)
             {
-                var result = streamReader.ReadToEnd();
+                WebRequest requestAddPlayers = WebRequest.Create("http://testserviceclicker.hostingasp.pl/api/player"+i);
+                requestAddPlayers.ContentType = "application/json";
+                requestAddPlayers.Method = "POST";
+
+                var response = (HttpWebResponse)requestAddPlayers.GetResponse();
+                using (var streamReader = new StreamReader(response.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                }
             }
-
-     //           WebRequest webRequest = WebRequest.Create("http://testserviceclicker.hostingasp.pl/api/player/1223456");
-        //    WebResponse webResponse = webRequest.GetResponse();
-         //   Stream dataStream = webResponse.GetResponseStream();
-        //    StreamReader reader = new StreamReader(dataStream);
-      //      string responseFromServer = reader.ReadToEnd();
-
         }
 
         [Test]

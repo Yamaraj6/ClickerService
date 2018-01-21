@@ -1,48 +1,39 @@
 using ClickerRepository;
-using ClickerRepository.Interfaces;
 using ClickerService.Controllers;
 using ClickerService.Models;
 using Newtonsoft.Json;
 using NSubstitute;
-using NUnit;
 using NUnit.Framework;
-using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.IO;
 using System.Net;
 
 namespace ClickerServiceTests
 {
-    public class RankingServiceTests
+    public class Tests
     {
         [Test]
-        public void ConvertToDouble_OnExecute_CheckIfValueIsCorrect()
+        public void Top20Players_RankingTest_CheckIfDatabaseValueIsCorrect()
         {
-            var players = AddPlayers();
+            var players = AddPlayers(100);
             var ranking = GetRanking();
+
             players.Sort((x, y) => ((Double)y.TotalEarnings).CompareTo((Double)x.TotalEarnings));
-            bool a = true;
-            for (int i = 0; i<20; i++)
+
+            for (int i = 0; i < 20; i++)
             {
-                a = players[i].TotalEarnings == ranking.GetValueOrDefault(i).Score;
+                Assert.IsTrue(players[i].TotalEarnings == ranking.GetValueOrDefault(i + 1).Score);
             }
-            DeletePlayers();
 
-     //           WebRequest webRequest = WebRequest.Create("http://testserviceclicker.hostingasp.pl/api/player/1223456");
-     //    WebResponse webResponse = webRequest.GetResponse();
-     //   Stream dataStream = webResponse.GetResponseStream();
-     //    StreamReader reader = new StreamReader(dataStream);
-     //      string responseFromServer = reader.ReadToEnd();
+            DeletePlayers(100);
+        } 
 
-        }
-
-        private List<Player> AddPlayers()
+        private List<Player> AddPlayers(int numberOfPlayers)
         {
             Random rand = new Random();
             List<Player> players = new List<Player>();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < numberOfPlayers; i++)
             {
                 players.Add(new Player
                 {
@@ -61,7 +52,7 @@ namespace ClickerServiceTests
                     TotalEarnings = rand.NextDouble() * 10000
                 });
             }
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < numberOfPlayers; i++)
             {
                 WebRequest requestAddPlayers = WebRequest.Create("http://testserviceclicker.hostingasp.pl/api/player");
                 requestAddPlayers.ContentType = "application/json";
@@ -93,9 +84,11 @@ namespace ClickerServiceTests
                 {
                     rankingType = RankingType.FromTo,
                     statName = "TotalEarnings",
-                    offsetBackward = 0,
-                    offsetForward = 20
+                    offsetBackward = 1,
+                    offsetForward = 21
                 }));
+                streamWriter.Write(byteArray, 0, byteArray.Length);
+                streamWriter.Close();
             }
             var response = (HttpWebResponse)requestGetRank.GetResponse();
             using (var streamReader = new StreamReader(response.GetResponseStream()))
@@ -105,9 +98,9 @@ namespace ClickerServiceTests
             }
         }
 
-            private void DeletePlayers()
+        private void DeletePlayers(int numberOfPlayers)
         {
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < numberOfPlayers; i++)
             {
                 WebRequest requestAddPlayers = WebRequest.Create("http://testserviceclicker.hostingasp.pl/api/player/"+i);
                 requestAddPlayers.Method = "POST";
@@ -121,11 +114,52 @@ namespace ClickerServiceTests
         }
 
         [Test]
-        public void GetTime_OnExecute_CheckIfTimeIsCorrect()
+        public void CheckPlayerShopItemPostAndGet()
         {
-            var timeRepository = Substitute.For<TimeRepository>();
-            var timeController = new TimeController(timeRepository);
-            Assert.IsTrue(timeRepository.GetTime().Second == DateTime.Now.Second);
+            AddPlayers(1);
+            var shopItems = AddPlayerShopItems();
+            var databaseShopItems = GetPlayerShopItems();
+            foreach (int key in shopItems.Keys)
+            {
+                Assert.IsTrue(shopItems.GetValueOrDefault(key).Equals(databaseShopItems.GetValueOrDefault(key)));
+            }
+            DeletePlayers(1);
+        }
+
+        private Dictionary<int, int> AddPlayerShopItems()
+        {
+            WebRequest request = WebRequest.Create("http://testserviceclicker.hostingasp.pl/api/playershopitem/0");
+            request.ContentType = "application/json";
+            request.Method = "POST";
+            var dictionary = new Dictionary<int, int>();
+            using (var streamWriter = request.GetRequestStream())
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    dictionary.Add(i, i);
+                }
+                byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(dictionary));
+                streamWriter.Write(byteArray, 0, byteArray.Length);
+                streamWriter.Close();
+            }
+            var response = (HttpWebResponse)request.GetResponse();
+            using (var streamReader = new StreamReader(response.GetResponseStream()))
+            {
+                var result = streamReader.ReadToEnd();
+            }
+            return dictionary;
+        }
+
+        private Dictionary<int, int> GetPlayerShopItems()
+        {
+            WebRequest request = WebRequest.Create("http://testserviceclicker.hostingasp.pl/api/playershopitem/0");
+            request.Method = "GET";
+            var response = (HttpWebResponse)request.GetResponse();
+            using (var streamReader = new StreamReader(response.GetResponseStream()))
+            {
+                var result = streamReader.ReadToEnd();
+                return JsonConvert.DeserializeObject<Dictionary<int, int>>(result);
+            }
         }
     }
 }

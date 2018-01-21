@@ -6,9 +6,6 @@ using Microsoft.Extensions.Configuration;
 
 namespace ClickerRepository
 {
-    /// </summary>
-    /// Class that manages the opening and closeing of the database.
-    /// </summary>
     public class DatabaseProvider: IDisposable
     {
         SqlConnection connection;

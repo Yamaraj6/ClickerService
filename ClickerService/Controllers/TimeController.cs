@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ClickerService.Controllers
 {
+    /// </summary>
+    /// Returns server time.
+    /// </summary>
     [Route("api/[controller]")]
     public class TimeController : Controller
     {
@@ -15,7 +18,11 @@ namespace ClickerService.Controllers
             this.timeRepository = timeRepository;
         }
 
-        // GET api/values
+        /// </summary>
+        /// Get actual time in the server.
+        /// <returns> Actual server time. </returns>
+        /// <example> GET api/time </example>
+        /// </summary>
         [HttpGet]
         public DateTime Get()
         {

@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ClickerService.Controllers
 {
+    /// </summary>
+    /// Manages players data using Facebook Id in database.
+    /// </summary>
     [Route("api/[controller]")]
     public class FacebookPlayerController : Controller
     {
@@ -14,7 +17,12 @@ namespace ClickerService.Controllers
             this.playerRepository = playerRepository;
         }
 
-        // GET api/facebookplayer/5
+        /// </summary>
+        /// Selects player by Facebook Id.
+        /// <param name="idFacebook"> Facebook Id which data will be select. </param>
+        /// <returns> Player from database.</returns>
+        /// <example> GET api/facebookplayer/5 </example>
+        /// </summary>
         [HttpGet("{idFacebook}")]
         public Player Get(string idFacebook)
         {

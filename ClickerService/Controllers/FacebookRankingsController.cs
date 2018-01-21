@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace ClickerService.Controllers
 {
+    /// </summary>
+    /// Manages rankings data using Facebook Id in database.
+    /// </summary>
     [Route("api/[controller]")]
     public class FacebookRankingsController : Controller
     {
@@ -17,8 +20,13 @@ namespace ClickerService.Controllers
         {
             this.facebookRankingsRepository = facebookRankingsRepository;
         }
-        
-        // PUT api/facebookrankings
+
+        /// </summary>
+        /// Selects players by list of Facebook Ids in the database.
+        /// <param name="friendsFbId"> List of Facebook Id Players whose to be extracted from the database. </param>
+        /// <returns> Players list from database.</returns>
+        /// <example> PUT api/facebookrankings </example>
+        /// </summary>
         [HttpPut]
         public IEnumerable<Player> Put([FromBody]List<string> friendsFbId)
         {

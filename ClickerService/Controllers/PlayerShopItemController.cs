@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace ClickerService.Controllers
 {
+    /// </summary>
+    /// Manages items which players has.
+    /// </summary>
     [Route("api/[controller]")]
     public class PlayerShopItemController : Controller
     {
@@ -14,14 +17,24 @@ namespace ClickerService.Controllers
             this.playerShopItemsRepository = playerShopItemsRepository;
         }
 
-        // GET api/playershopitem/5
+        /// </summary>
+        /// Selects player items from the database.
+        /// <param name="idPlayer"> Player's id whose items will be select. </param>
+        /// <returns> Dictionary which the key is item Id and value is the item level. </returns>
+        /// <example> GET api/playershopitem/5 </example>
+        /// </summary>
         [HttpGet("{idPlayer}")]
         public Dictionary<int, int> Get(string idPlayer)
         {
             return playerShopItemsRepository.GetPlayerShopItems(idPlayer);
         }
 
-        // PUT api/playershopitem/5
+        /// </summary>
+        /// Updates player items in database.
+        /// <param name="idPlayer"> Player's id to which the items belongs. </param>
+        /// <param name="shopItemsWithLvls"> Items with leves. </param>
+        /// <example> PUT api/playershopitem/5 </example>
+        /// </summary>
         [HttpPut("{idPlayer}")]
         public void Put(string idPlayer, [FromBody]Dictionary<int, int> shopItemsWithLvls)
         {

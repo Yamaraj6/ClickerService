@@ -8,9 +8,6 @@ using System.Text;
 
 namespace ClickerRepository
 {
-    /// </summary>
-    /// Class that manages players data in the database.
-    /// </summary>
     public class PlayerRepository : IPlayerRepository
     {
         private DatabaseProvider databaseProvider;
@@ -19,12 +16,7 @@ namespace ClickerRepository
         {
             this.databaseProvider = databaseProvider;
         }
-
-        /// </summary>
-        /// Downloads the player from database by Id.
-        /// <param name="id">Player Id.</param>
-        /// <returns>Player found in the database.</returns>
-        /// </summary>
+        
         public Player GetPlayer(string id)
         {
             using (var connection = databaseProvider.OpenConnection())
@@ -58,12 +50,7 @@ namespace ClickerRepository
                 }
             }
         }
-
-        /// </summary>
-        /// Downloads the player from database by Facebook Id.
-        /// <param name="idFacebook">Player Facebook Id.</param>
-        /// <returns>Player found in the database.</returns>
-        /// </summary>
+        
         public Player GetPlayerByFacebookId(string idFacebook)
         {
             using (var connection = databaseProvider.OpenConnection())
@@ -97,11 +84,7 @@ namespace ClickerRepository
                 }
             }
         }
-
-        /// </summary>
-        /// Function removeing the player from database.
-        /// <param name="id">Player's Id to be removed.</param>
-        /// </summary>
+        
         public void RemovePlayer(string id)
         {
             using (var connection = databaseProvider.OpenConnection())
@@ -112,11 +95,7 @@ namespace ClickerRepository
                 sqlCommand.ExecuteNonQuery();
             }
         }
-
-        /// </summary>
-        /// Function updating the player in database.
-        /// <param name="player">New player data.</param>
-        /// </summary>
+        
         public void UpdatePlayer(Player player)
         {
             using (var connection = databaseProvider.OpenConnection())

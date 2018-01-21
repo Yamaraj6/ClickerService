@@ -15,9 +15,9 @@ namespace ClickerService.Controllers
             this.rankingsRepository = rankingsRepository;
         }
 
-        // PUT api/rankings/5
+        // POST api/rankings/5
         [HttpPut("{idPlayer}")]
-        public Dictionary<int, RankingPlayer> Put(string idPlayer, [FromBody]Ranking ranking)
+        public Dictionary<int, RankingPlayer> Post(string idPlayer, [FromBody]Ranking ranking)
         {
             return rankingsRepository.GetRanking(idPlayer, ranking);
         }

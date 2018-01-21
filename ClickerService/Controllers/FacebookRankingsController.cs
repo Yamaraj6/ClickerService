@@ -19,8 +19,8 @@ namespace ClickerService.Controllers
         }
         
         // PUT api/facebookrankings
-        [HttpPut]
-        public IEnumerable<Player> Put([FromBody]List<string> friendsFbId)
+        [HttpPost]
+        public IEnumerable<Player> Post([FromBody]List<string> friendsFbId)
         {
             return facebookRankingsRepository.GetFacebookFriendRanking(friendsFbId);
         }

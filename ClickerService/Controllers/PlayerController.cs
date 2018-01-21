@@ -22,16 +22,16 @@ namespace ClickerService.Controllers
             return playerRepository.GetPlayer(id);
         }
         
-        // PUT api/player/5
-        [HttpPut]
-        public void Put([FromBody]Player player)
+        // POST api/player/5
+        [HttpPost]
+        public void Post([FromBody]Player player)
         {
             playerRepository.UpdatePlayer(player);
         }
 
-        // DELETE api/player/5
-        [HttpDelete("{id}")]
-        public void Delete(string id)
+        // POST api/player/5 DELETE PLAYER
+        [HttpPost("{id}")]
+        public void Post(string id)
         {
             playerRepository.RemovePlayer(id);
         }

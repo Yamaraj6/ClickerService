@@ -21,9 +21,9 @@ namespace ClickerService.Controllers
             return playerShopItemsRepository.GetPlayerShopItems(idPlayer);
         }
 
-        // PUT api/playershopitem/5
+        // POST api/playershopitem/5
         [HttpPut("{idPlayer}")]
-        public void Put(string idPlayer, [FromBody]Dictionary<int, int> shopItemsWithLvls)
+        public void Post(string idPlayer, [FromBody]Dictionary<int, int> shopItemsWithLvls)
         {
             playerShopItemsRepository.UpdatePlayerShopItems(idPlayer, shopItemsWithLvls);
         }

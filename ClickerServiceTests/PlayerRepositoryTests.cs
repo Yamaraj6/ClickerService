@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using NSubstitute;
 using NUnit;
 using NUnit.Framework;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -19,7 +20,14 @@ namespace ClickerServiceTests
         [Test]
         public void ConvertToDouble_OnExecute_CheckIfValueIsCorrect()
         {
-            AddPlayers();
+            var players = AddPlayers();
+            var ranking = GetRanking();
+            players.Sort((x, y) => ((Double)y.TotalEarnings).CompareTo((Double)x.TotalEarnings));
+            bool a = true;
+            for (int i = 0; i<20; i++)
+            {
+                a = players[i].TotalEarnings == ranking.GetValueOrDefault(i).Score;
+            }
             DeletePlayers();
 
      //           WebRequest webRequest = WebRequest.Create("http://testserviceclicker.hostingasp.pl/api/player/1223456");
@@ -30,11 +38,11 @@ namespace ClickerServiceTests
 
         }
 
-        private void AddPlayers()
+        private List<Player> AddPlayers()
         {
             Random rand = new Random();
             List<Player> players = new List<Player>();
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 100; i++)
             {
                 players.Add(new Player
                 {
@@ -53,7 +61,7 @@ namespace ClickerServiceTests
                     TotalEarnings = rand.NextDouble() * 10000
                 });
             }
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 100; i++)
             {
                 WebRequest requestAddPlayers = WebRequest.Create("http://testserviceclicker.hostingasp.pl/api/player");
                 requestAddPlayers.ContentType = "application/json";
@@ -70,14 +78,38 @@ namespace ClickerServiceTests
                     var result = streamReader.ReadToEnd();
                 }
             }
+            return players;
         }
 
-        private void DeletePlayers()
+        private Dictionary<int, RankingPlayer> GetRanking()
         {
-            for (int i = 0; i < 1000; i++)
+            WebRequest requestGetRank = WebRequest.Create("http://testserviceclicker.hostingasp.pl/api/rankings/1");
+            requestGetRank.ContentType = "application/json";
+            requestGetRank.Method = "POST";
+            using (var streamWriter = requestGetRank.GetRequestStream())
             {
-                WebRequest requestAddPlayers = WebRequest.Create("http://testserviceclicker.hostingasp.pl/api/player"+i);
-                requestAddPlayers.ContentType = "application/json";
+                byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
+                new Ranking
+                {
+                    rankingType = RankingType.FromTo,
+                    statName = "TotalEarnings",
+                    offsetBackward = 0,
+                    offsetForward = 20
+                }));
+            }
+            var response = (HttpWebResponse)requestGetRank.GetResponse();
+            using (var streamReader = new StreamReader(response.GetResponseStream()))
+            {
+                var result = streamReader.ReadToEnd();
+                return JsonConvert.DeserializeObject<Dictionary<int, RankingPlayer>>(result);
+            }
+        }
+
+            private void DeletePlayers()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                WebRequest requestAddPlayers = WebRequest.Create("http://testserviceclicker.hostingasp.pl/api/player/"+i);
                 requestAddPlayers.Method = "POST";
 
                 var response = (HttpWebResponse)requestAddPlayers.GetResponse();

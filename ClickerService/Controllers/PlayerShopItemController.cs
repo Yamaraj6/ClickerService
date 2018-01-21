@@ -22,7 +22,7 @@ namespace ClickerService.Controllers
         }
 
         // POST api/playershopitem/5
-        [HttpPut("{idPlayer}")]
+        [HttpPost("{idPlayer}")]
         public void Post(string idPlayer, [FromBody]Dictionary<int, int> shopItemsWithLvls)
         {
             playerShopItemsRepository.UpdatePlayerShopItems(idPlayer, shopItemsWithLvls);

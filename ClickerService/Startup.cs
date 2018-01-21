@@ -28,14 +28,14 @@ namespace ClickerService
         {
             services.AddMvc();
             services.AddSingleton<IConfiguration>(Configuration);
-            services.AddTransient<DatabaseProvider>();
+            services.AddSingleton<DatabaseProvider>();
 
-            services.AddTransient<ITimeRepository, TimeRepository>();
-            services.AddTransient<IPlayerRepository, PlayerRepository>();
-            services.AddTransient<IShopItemsRepository, ShopItemsRepository>();
-            services.AddTransient<IPlayerShopItemsRepository, PlayerShopItemsRepository>();
-            services.AddTransient<IRankingsRepository, RankingsRepository>();
-            services.AddTransient<IFacebookRankingsRepository, FacebookRankingsRepository>();
+            services.AddScoped<ITimeRepository, TimeRepository>();
+            services.AddScoped<IPlayerRepository, PlayerRepository>();
+            services.AddScoped<IShopItemsRepository, ShopItemsRepository>();
+            services.AddScoped<IPlayerShopItemsRepository, PlayerShopItemsRepository>();
+            services.AddScoped<IRankingsRepository, RankingsRepository>();
+            services.AddScoped<IFacebookRankingsRepository, FacebookRankingsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

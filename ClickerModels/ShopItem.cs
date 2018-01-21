@@ -8,6 +8,7 @@
         public double Price { get; set; }
         public string Bonus { get; set; }
         public double Value { get; set; }
+        public int Level { get; set; }
         public bool? IsPremium { get; set; }
     }
 }

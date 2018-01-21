@@ -36,7 +36,8 @@ namespace ClickerModels
                             Price = Convert.ToDouble(rdr["Price"].ToString()),
                             Bonus = rdr["Bonus"].ToString(),
                             Value = Convert.ToDouble(rdr["Value"].ToString()),
-                            IsPremium = Convert.ToBoolean(rdr["IsPremium"].ToString())
+                            IsPremium = Convert.ToBoolean(rdr["IsPremium"].ToString()),
+                            Level = 0
                         });
                     }
                     return shopItems;

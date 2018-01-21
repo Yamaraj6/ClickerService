@@ -81,7 +81,8 @@ namespace ClickerRepository
                         }
                         allPlayersRanking.Add(placeInRanking, new RankingPlayer
                         {
-                            Id = Convert.ToString(sqlReader["Id"].ToString()),
+                            Id = Convert.ToString(sqlReader["Id"]),
+                            IdFacebook = Convert.ToString(sqlReader["IdFacebook"]),
                             Name = Convert.ToString(sqlReader["Name"]),
                             ImageUrl = Convert.ToString(sqlReader["ImageUrl"]),
                             Country = Convert.ToString(sqlReader["Country"]),

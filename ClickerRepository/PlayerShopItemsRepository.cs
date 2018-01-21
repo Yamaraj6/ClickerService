@@ -26,7 +26,7 @@ namespace ClickerModels
                 using (var sqlReader = sqlCommand.ExecuteReader())
                 {
                     Dictionary<int, int> shopItemsWithLevels = new Dictionary<int, int>();
-                    while(sqlReader.Read())
+                    while (sqlReader.Read())
                     {
                         shopItemsWithLevels.Add(Convert.ToInt32(sqlReader["ShopItemId"]),
                             Convert.ToInt32(sqlReader["ItemLevel"]));
@@ -38,25 +38,28 @@ namespace ClickerModels
 
         public void UpdatePlayerShopItems(string idPlayer, Dictionary<int, int> shopItemsWithLvls)
         {
-            using (var connection = databaseProvider.OpenConnection())
+            if (shopItemsWithLvls != null)
             {
-                SqlCommand sqlCommand = new SqlCommand("dbo.UpdatePlayerShopItems", connection);
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                foreach (var key in shopItemsWithLvls.Keys)
+                using (var connection = databaseProvider.OpenConnection())
                 {
-                    sqlCommand.Parameters.Add(new SqlParameter("@idPlayer", idPlayer));
-                    sqlCommand.Parameters.Add(new SqlParameter("@idShopItem", key));
-                    sqlCommand.Parameters.Add(new SqlParameter("@itemLvl", shopItemsWithLvls[key]));
-                    try
+                    SqlCommand sqlCommand = new SqlCommand("dbo.UpdatePlayerShopItems", connection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    foreach (var key in shopItemsWithLvls.Keys)
                     {
-                        sqlCommand.ExecuteNonQuery();
+                        sqlCommand.Parameters.Add(new SqlParameter("@idPlayer", idPlayer));
+                        sqlCommand.Parameters.Add(new SqlParameter("@idShopItem", key));
+                        sqlCommand.Parameters.Add(new SqlParameter("@itemLvl", shopItemsWithLvls[key]));
+                        try
+                        {
+                            sqlCommand.ExecuteNonQuery();
+                        }
+                        catch
+                        {
+                            Console.WriteLine($"Player {idPlayer} doesn't exist in the base or\n" +
+                                $"ShopItem {key} doesn't exist in the base!");
+                        }
+                        sqlCommand.Parameters.Clear();
                     }
-                    catch
-                    {
-                        Console.WriteLine($"Player {idPlayer} doesn't exist in the base or\n" +
-                            $"ShopItem {key} doesn't exist in the base!");
-                    }
-                    sqlCommand.Parameters.Clear();
                 }
             }
         }
